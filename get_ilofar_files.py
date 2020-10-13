@@ -50,7 +50,7 @@ def get_ilofar_data(date, path="./"):
 	"""
 
 	files = find_ilofar_data(date)
-	if len(files)<0:
+	if len(files)==0:
 		return 
 
 	for f in files:
