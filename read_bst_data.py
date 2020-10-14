@@ -32,9 +32,10 @@ def read_bst_data(filename):
     Examples
     --------
     >>> spec, time, data = read_bst_data("./bst_files/20170910_070804_bst_00X.dat")
-    """
 
+    """
     filename = Path(filename) # here just in case path given
+    
     f = open(filename, "rb")
     
     data_bytes = f.read()
@@ -94,9 +95,9 @@ def subband_to_freq(sb, nyquist_zone):
         * Mode 5 - subbands = 54 to 452 (in steps of 2) and nyquist zone = 3
         * Mode 7 - subbands = 54 to 228 (in steps of 2) and nyquist zone = 3
     """
-    clock = 200*u.MHz #MHz
+    clock = 200*u.MHz 
     freq = (nyquist_zone - 1 + sb/512)*(clock/2)
-    return freq #MHz
+    return freq 
 
 
 
