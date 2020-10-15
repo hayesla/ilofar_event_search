@@ -11,7 +11,7 @@ class dynamic_spectra():
     A dynamic spectrogram class. The idea is to for this to be a container
     for dynamic spectra which can then be truncated etc. 
 
-    Attributes
+    Parameters
     ----------
     data : `~np.ndarray`
         2D spectrogram data.
