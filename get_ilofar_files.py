@@ -54,10 +54,13 @@ def get_ilofar_data(date, path="./"):
 		return 
 
 	for f in files:
+		if Path(path).joinpath(f.split("/")[-1]).exists():
+			print("{:s} file already exists in given path".format(f.split("/")[-1]))
+			return 
 		urllib.request.urlretrieve(f, Path(path).joinpath(f.split("/")[-1]))
 
-	if Path(path).joinpath(f.split("/")[-1]).exists():
-		print("download success")
+		if Path(path).joinpath(f.split("/")[-1]).exists():
+			print("download success")
 
 
 
