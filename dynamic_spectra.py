@@ -42,20 +42,46 @@ class dynamic_spectra():
 
     @u.quantity_input
     def background_sub1(self, percentile : u.percent = 1*u.percent):
+        """
+        Function to do a background subtraction and return a new dyanamic
+        spectra object with the background subtracted data. 
+
+        This function finds the background by dividing the data by the 
+        average spectra of times when the standard dev is in bottom percentile
+        defined by the parameter inputs. 
+
+        Parameters
+        ----------
+        percentile : `~astropy.quantity.Quantity`
+            the percentile of the standard dev for which data must be below.
         
+        Notes
+        -----
+        Takes the log of the data before performing background subtraction. 
+        """
         data = np.log10(self.data)
         data[np.isneginf(data)] = 0
         data_std = np.std(data, axis=0)
         data_std = data_std[np.nonzero(data_std)]
-        min_std_indices = np.where( data_std < np.percentile(data_std, percentile.to_value('%')) )[0]
+        min_std_indices = np.where(data_std < np.percentile(data_std, percentile.to_value('%')))[0]
         min_std_spec = data[:, min_std_indices]
         min_std_spec = np.mean(min_std_spec, axis=1)
-        data = np.transpose(np.divide( np.transpose(data), min_std_spec))
+        data = np.transpose(np.divide(np.transpose(data), min_std_spec))
 
         return self._update_data(data)
 
     def background_sub2(self):
-        
+        """
+        Function to do a background subtraction and return a new dyanamic
+        spectra object with the background subtracted data. 
+
+        This function just divides the data in each frequency channel by the mean
+        of the respective channel.
+
+        Notes
+        -----
+        Takes the log of the data before performing background subtraction. 
+        """
         data = np.log10(self.data)
         data[np.isneginf(data)] = 0
 
