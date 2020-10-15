@@ -3,10 +3,11 @@ from sunpy import timeseries as ts
 import matplotlib.pyplot as plt 
 import numpy as np
 import pandas as pd 
+from pathlib import Path
 
 from read_bst_data import read_bst_data
 
-def plot_event(tstart, tend, plot_goes=False):
+def plot_event(tstart, tend, path='./bst_files/',plot_goes=False):
 	"""
 	Function to plot the dynamic spectrum for a given date.
 
@@ -19,3 +20,10 @@ def plot_event(tstart, tend, plot_goes=False):
 	plot_goes : ~`boolean`, optional
 		if True overplot the GOES XRS lightcurves
 	"""
+
+	if isinstance(tstart, str):
+		tstart = parse_time(tstart)
+	if isinstance(tend, str):
+		tend = parse_time(tend)
+
+	file = glob.glob(path+start.strftime('%Y%m%d*.dat'))
