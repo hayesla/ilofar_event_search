@@ -37,15 +37,19 @@ def read_bst_data(filename):
     filename = Path(filename) # here just in case path given
     
     f = open(filename, "rb")
-    
     data_bytes = f.read()
-
+    f.close()
     data_array = np.fromfile(filename)
 
     # get the bit mode - should be 8 for I-LOFAR
     bit_mode = len(data_bytes)/len(data_array)
 
     num_beamlets = int(244*16/bit_mode)
+
+    # this part takes care of the data not being an integer multiple of the beamlets
+    full_data_len = int(len(data_array)/num_beamlets)*num_beamlets
+    if len(data_array)!=full_data_len:
+        data_array = data_array[: -(len(data_array) - full_data_len)]
 
     spec = data_array.reshape(-1, num_beamlets).T
 
