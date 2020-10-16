@@ -90,7 +90,7 @@ class dynamic_spectra():
 
         return self._update_data(data)
 
-    def plot(self, **kwargs):
+    def plot(self, axes=None, **kwargs):
         """
         Plot the dyanamic spectrum.
 
@@ -100,7 +100,8 @@ class dynamic_spectra():
             additional keyword arguments for plt.imshow.
 
         """
-        fig, ax = plt.subplots()
+        if axes is None:
+            ax = plt.gca()
 
         im = ax.imshow(self.data, 
                   vmin=np.percentile(self.data, 1.5), 
@@ -114,8 +115,13 @@ class dynamic_spectra():
         ax.set_xlabel("Time ({:s} UT)".format(self.times[0].strftime("%Y-%m-%d")))
         ax.set_ylabel("Frequency ({:s})".format(self.freq.unit.to_string()))
         ax.xaxis.set_major_formatter(dates.DateFormatter("%H:%M"))
-        fig.colorbar(im)
-        plt.show()
+
+
+        # for i in plt.get_fignums():
+        #     if ax in plt.figure(i).axes:
+        #         plt.sca(ax)
+
+        return im
 
     def crop_time(self, tstart, tend):
         """
