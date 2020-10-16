@@ -116,11 +116,6 @@ class dynamic_spectra():
         ax.set_ylabel("Frequency ({:s})".format(self.freq.unit.to_string()))
         ax.xaxis.set_major_formatter(dates.DateFormatter("%H:%M"))
 
-
-        # for i in plt.get_fignums():
-        #     if ax in plt.figure(i).axes:
-        #         plt.sca(ax)
-
         return im
 
     def crop_time(self, tstart, tend):
